@@ -1,4 +1,34 @@
-# """Initialize Flask app."""
+#################################################
+# Dependencies (from Lesson 10 Activity 10-Ins_Flask_with_ORM)
+#################################################
+import numpy as np
+
+import sqlalchemy
+from sqlalchemy.ext.automap import automap_base
+from sqlalchemy.orm import Session
+from sqlalchemy import create_engine, func
+
+from flask import Flask, jsonify
+
+
+#################################################
+# Database Setup
+#################################################
+engine = create_engine("sqlite:///titanic.sqlite")
+
+# reflect an existing database into a new model
+Base = automap_base()
+# reflect the tables
+Base.prepare(engine, reflect=True)
+
+# Save reference to the table
+Passenger = Base.classes.passenger
+
+
+
+#################################################
+# Flask Setup
+#################################################
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 
@@ -8,11 +38,12 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{username}:{password}@loc
 db = SQLAlchemy(app)
 
 
+
+"""Example table"""
+
 # """Data models."""
-from . import db
+# from . import db
 
-
-# # """Example table"""
 # class User(db.Model):
 
     # __tablename__ = "flasksqlalchemy-tutorial-users"
@@ -28,7 +59,9 @@ from . import db
 
 
 
-# """Application routes."""
+#################################################
+# Flask Routes
+#################################################
 from datetime import datetime as dt
 
 from flask import current_app as app
@@ -51,9 +84,45 @@ def welcome():
 
 @app.route("/api/v1.0/map", methods=["GET"])
 def mapAPI():
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+
+    """Return a list of all a Table and its entries"""
+    # Query all entries
+    results = session.query(Table.column).all()
+
+    session.close()
+
+    # Convert list of tuples into normal list
+    all_entries = list(np.ravel(results))
+
+    return jsonify(all_entries)
+
 
 @app.route("/api/v1.0/hex", methods=["GET"])
 def hexAPI():
+    # Or for more complex queries, create and append a new custom list
+
+    # Create our session (link) from Python to the DB
+    session = Session(engine)
+
+    """Example: Return a list of passenger data including the name, age, and sex"""
+    # # Query all passengers
+    # results = session.query(Passenger.name, Passenger.age, Passenger.sex).all()
+
+    session.close()
+
+    # # Create a dictionary for each passenger (from the row data) and append to a list of all_passengers
+    # all_passengers = []
+    # for name, age, sex in results:
+    #     passenger_dict = {}
+    #     passenger_dict["name"] = name
+    #     passenger_dict["age"] = age
+    #     passenger_dict["sex"] = sex
+    #     all_passengers.append(passenger_dict)
+
+    # return jsonify(all_passengers)
+
 
 @app.route("/api/v1.0/graph", methods=["GET"])
 def graphAPI():
@@ -83,3 +152,7 @@ def graphAPI():
 #         db.session.commit()  # Commits all changes
 #         redirect(url_for("user_records"))
 #     return render_template("users.jinja2", users=User.query.all(), title="Show Users")
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
