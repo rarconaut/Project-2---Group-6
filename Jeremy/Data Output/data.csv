@@ -1,4 +1,4 @@
-ticker,exchange,sector,industry,state_val,city,lat,lon,rpt_year,revenue_scaled,income_tax_scaled,net_income_scaled,market_cap,median_hh_income
+﻿ticker,exchange,sector,industry,state_val,city,lat,lon,rpt_year,revenue_scaled,income_tax_scaled,net_income_scaled,market_cap,median_hh_income
 A,NYSE,Health Care,Health Care Equipment,CA,Santa Clara,37.323093,-122.00448,2016,4202000000,82000000,462000000,14989240000,66637
 A,NYSE,Health Care,Health Care Equipment,CA,Santa Clara,37.323093,-122.00448,2017,4472000000,119000000,684000000,21832220000,69759
 A,NYSE,Health Care,Health Care Equipment,CA,Santa Clara,37.323093,-122.00448,2018,4914000000,630000000,316000000,21924500000,70489
