@@ -69,6 +69,12 @@ from flask import make_response, redirect, render_template, request, url_for
 
 from .models import User, db
 
+# Create route that renders index.html template
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+
 # Create a different route for each element's API (built from querying our database) 
 # - these will be the source URLs for our visualizations' .js files 
 @app.route("/api")
