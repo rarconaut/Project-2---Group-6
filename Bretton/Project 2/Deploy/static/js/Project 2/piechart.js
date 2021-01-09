@@ -27,10 +27,10 @@
   function update(data) {
   
     // Compute the position of each group on the pie:
-    var bar = d3.bar()
+    var pie = d3.bar()
       .value(function(d) {return d.value; })
       .sort(function(a, b) { console.log(a) ; return d3.ascending(a.key, b.key);} ) // This make sure that group order remains the same in the pie chart
-    var data_ready = bar(d3.entries(data))
+    var data_ready = pie(d3.entries(data))
   
     // map to data
     var u = svg.selectAll("path")
